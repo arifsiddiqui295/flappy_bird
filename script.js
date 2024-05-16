@@ -35,6 +35,8 @@ let velocityY = 0;
 let gravity = 0.4;
 let score = 0;
 let gameOver = false;
+let gameStarted = false;
+
 window.onload = function () {
   board = document.getElementById("board");
   board.width = boardWidth;
@@ -59,10 +61,24 @@ window.onload = function () {
 
   requestAnimationFrame(update);
   setInterval(placePipes, 1500);
-  document.addEventListener("click", moveBird);
+  document.addEventListener("click", function() {
+    if (!gameStarted) {
+      gameStarted = true;
+    }
+    moveBird();
+  });
 };
+
 function update() {
   requestAnimationFrame(update);
+  if (!gameStarted) {
+    context.clearRect(0, 0, board.width, board.height);
+    context.fillStyle = "white";
+    context.font = "30px Arial";
+    context.fillText("Click anywhere to Start", 5, 45);
+    return;
+  }
+  
   if (gameOver) {
     return;
   }
